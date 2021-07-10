@@ -18,4 +18,5 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroup: mxchip
         template: ./resource-group.json

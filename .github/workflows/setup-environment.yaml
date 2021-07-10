@@ -19,4 +19,4 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: mxchip
-        template: ./iot-hub.json
+        template: ./.azure-arm/iot-hub.json

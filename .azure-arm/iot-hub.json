@@ -1,0 +1,55 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "variables": {},
+  "resources": [
+      {
+          "type": "Microsoft.Devices/IotHubs",
+          "apiVersion": "2021-03-31",
+          "name": "mxchip-hub",
+          "location": "westeurope",
+          "sku": {
+              "name": "F1",
+              "tier": "Free",
+              "capacity": 1
+          },
+          "properties": {
+              "eventHubEndpoints": {
+                  "events": {
+                      "retentionTimeInDays": 1,
+                      "partitionCount": 2
+                  }
+              },
+              "routing": {
+                  "endpoints": {
+                      "serviceBusQueues": [],
+                      "serviceBusTopics": [],
+                      "eventHubs": [],
+                      "storageContainers": []
+                  },
+                  "routes": [],
+                  "fallbackRoute": {
+                      "name": "$fallback",
+                      "source": "DeviceMessages",
+                      "condition": "true",
+                      "endpointNames": [
+                          "events"
+                      ],
+                      "isEnabled": true
+                  }
+              },
+              "cloudToDevice": {
+                  "maxDeliveryCount": 10,
+                  "defaultTtlAsIso8601": "PT1H",
+                  "feedback": {
+                      "lockDurationAsIso8601": "PT1M",
+                      "ttlAsIso8601": "PT1H",
+                      "maxDeliveryCount": 10
+                  }
+              },
+              "features": "None"
+          }
+      }
+  ]
+}

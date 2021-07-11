@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
-FROM python:3-alpine
+FROM python:3
 WORKDIR /code
-RUN apk add --no-cache gcc musl-dev linux-headers
+RUN pip install --no-cache-dir python-dotenv azure-eventhub azure-eventhub-checkpointstoreblob-aio
+
 COPY ./listener .
 CMD ["python", "./listener.py"]

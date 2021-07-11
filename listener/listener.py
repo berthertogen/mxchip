@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from pymongo import MongoClient
 from pprint import pprint
+from events import Events
 
 load_dotenv()
 
@@ -53,16 +54,7 @@ def on_error(partition_context, error):
         print("An exception: {} occurred during the load balance process.".format(error))
 
 def write_event(event):
-    print('Type: ', type(event))
-    print("Connecting ...")
-    eventJson={
-        **event.body_as_json(encoding='UTF-8'),
-        'enqueued_time':event.enqueued_time,
-        'offset':event.offset,
-        'sequence_number':event.sequence_number,
-    }
-    result=db.events.insert_one(eventJson)
-    print('Created {0}'.format(result.inserted_id))
+    events.write_event(event)
 
 if __name__ == '__main__':
     consumer_client = EventHubConsumerClient.from_connection_string(
@@ -70,11 +62,10 @@ if __name__ == '__main__':
         consumer_group=CONSUMER_GROUP_NAME
     )
 
-    print("Checking db connection...")
-    client = MongoClient(MONGODB_CONNECTION_STRING)
-    db=client.mxchip
-    serverStatusResult=db.command("serverStatus")
-    print('Connection made to ', serverStatusResult['host'])
+    events=Events(MONGODB_CONNECTION_STRING)
+    lastEvent=events.last_written()
+    start_position="-1" if lastEvent is None else lastEvent['enqueued_time']
+    print('Getting events starting from {0} last event {1}', start_position, lastEvent)
 
     try:
         with consumer_client:
@@ -83,7 +74,7 @@ if __name__ == '__main__':
                 on_partition_initialize=on_partition_initialize,
                 on_partition_close=on_partition_close,
                 on_error=on_error,
-                starting_position=datetime.today().replace(hour=0,minute=0,second=0,microsecond=0)
+                starting_position=start_position
             )
     except KeyboardInterrupt:
         print('Stopped receiving.')

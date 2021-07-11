@@ -33,7 +33,7 @@ app.get('/now', async (req, res) => {
         res.send(err);
       }
     },
-    { startPosition: earliestEventPosition }
+    { maxWaitTimeInSeconds: 5 }
   );
 
   setTimeout(async () => {

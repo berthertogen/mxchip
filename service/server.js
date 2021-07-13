@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGODB, {
     process.exit();
 });
 
-require('./routes/events.routes.js')(app);
+require('./iot-events/iot-event.routes.js')(app);
 
 app.listen(process.env.PORT, function() {
     console.log(`listening on ${process.env.PORT}`)

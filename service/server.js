@@ -1,16 +1,18 @@
 const express = require('express');
+const cors = require('cors')
 const mongoose = require('mongoose');
 require('dotenv').config()
 
 
 const app = express();
+app.use(cors({ origin: process.env.CORSORIGIN }))
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    console.log("Successfully connected to the database");    
+    console.log("Successfully connected to the database");
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();
@@ -18,7 +20,6 @@ mongoose.connect(process.env.MONGODB, {
 
 require('./iot-events/iot-event.routes.js')(app);
 
-app.listen(process.env.PORT, function() {
+app.listen(process.env.PORT, function () {
     console.log(`listening on ${process.env.PORT}`)
 })
-  

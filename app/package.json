@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "webpack",
-    "start": "http-server"
+    "start": "webpack && http-server"
   },
   "keywords": [],
   "author": "",

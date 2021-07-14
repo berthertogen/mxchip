@@ -10,5 +10,24 @@ exports.findAll = (req, res) => {
             message: err.message || "Some error occurred while retrieving iot-events."
         });
     });
+};
 
+exports.create = (req, res) => {
+    if(!req.body) {
+        return res.status(400).send({
+            message: "Iot Event content can not be empty"
+        });
+    }
+    new IotEvents({
+        ...req.body
+    })
+        .save()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the Note."
+            });
+        });
 };

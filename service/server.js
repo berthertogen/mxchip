@@ -6,6 +6,10 @@ require('dotenv').config()
 
 const app = express();
 app.use(cors({ origin: process.env.CORSORIGIN }))
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB, {

@@ -20,6 +20,10 @@ mongoose.connect(process.env.MONGODB, {
 
 require('./iot-events/iot-event.routes.js')(app);
 
+app.get('/', (req, res) => {
+    return res.send("Hello world")
+});
+
 app.listen(process.env.PORT, function () {
     console.log(`listening on ${process.env.PORT}`)
 })

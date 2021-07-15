@@ -16,13 +16,8 @@ var setupConfig = () => {
 setupConfig();
 console.log(apiHost);
 module.exports = {
-  mode: 'development',
   entry: {
     index: './src/index.js',
-  },
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist',
   },
   plugins: [
     new HtmlWebpackPlugin({

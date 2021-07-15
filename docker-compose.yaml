@@ -5,7 +5,7 @@ services:
     ports:
       - "8081:3000"
     environment:
-      MONGODB: mongodb://root:${MONGDBPASSWORD}@192.168.1.18:27017/mxchip?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
+      MONGODB: mongodb://root:${MONGODB_PASSWORD}@192.168.1.18:27017/mxchip?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
       PORT: 3000
       CORSORIGIN: http://hertogen.synology.me:8080
 
@@ -17,7 +17,7 @@ services:
       - "/volume1/docker/mxchip-mongo:/data/db"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGDBPASSWORD}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
 
   mxchip-app:
     build: ./app

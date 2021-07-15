@@ -14,7 +14,7 @@ var setupConfig = () => {
   }
 };
 setupConfig();
-console.log(apiHost);
+
 module.exports = {
   entry: {
     index: './src/index.js',

@@ -18,16 +18,25 @@ exports.create = (req, res) => {
             message: "Iot Event content can not be empty"
         });
     }
-    new IotEvents({
-        ...req.body
-    })
-        .save()
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Note."
-            });
-        });
+    res.send({
+        ...req.body,
+        params: req.params,
+        query: req.query,
+        rawHeaders: req.rawHeaders,
+        url: req.url,
+        method: req.method,
+        protocol: req.protocol,
+    });
+    // new IotEvents({
+    //     ...req.body
+    // })
+    //     .save()
+    //     .then(data => {
+    //         res.send(data);
+    //     })
+    //     .catch(err => {
+    //         res.status(500).send({
+    //             message: err.message || "Some error occurred while creating the Note."
+    //         });
+    //     });
 };

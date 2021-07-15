@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  mxchip-service:
+    build: ./service
+    ports:
+      - "8081:3000"
+    environment:
+      MONGODB: ${MONGODB}
+      PORT: 3000

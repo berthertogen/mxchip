@@ -5,6 +5,7 @@
   "scripts": {
     "build": "webpack",
     "build:production": "NODE_ENV=production webpack",
+    "build:production:win": "set NODE_ENV=production && webpack",
     "start": "webpack serve --open"
   },
   "keywords": [],

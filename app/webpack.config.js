@@ -4,16 +4,17 @@ const webpack = require('webpack');
 
 let apiHost;
 var setupConfig = () => {
-  switch (process.env.NODE_ENV) {
+  switch (process.env.NODE_ENV.trim()) {
     case 'production':
-      apiHost = 'http://hertogen.synology.me:8081';
+      apiHost = "'http://hertogen.synology.me:8081'";
       break;
     default:
-      apiHost = 'http://localhost:3000';
+      apiHost = "'http://localhost:3000'";
       break;
   }
 };
 setupConfig();
+console.log(apiHost);
 
 module.exports = {
   mode: 'development',

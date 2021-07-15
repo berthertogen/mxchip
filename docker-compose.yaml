@@ -20,4 +20,4 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
 
 volumes:
-  - dbdata:docker/mxchip-mongodb
+  dbdata: docker/mxchip-mongodb

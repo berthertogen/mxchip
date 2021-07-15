@@ -5,5 +5,6 @@ jobs:
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v1
+    - run: docker login --username berthertogen --password ${{ secrets.DOCKER_PAT }}
     - run: docker build -t berthertogen/mxchip-service:latest ./service
     - run: docker push berthertogen/mxchip-service:latest

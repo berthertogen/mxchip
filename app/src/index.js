@@ -4,48 +4,71 @@ import 'chartjs-adapter-luxon';
 
 Chart.register(...registerables);
 
-function prettyJson(object) {
-  return JSON.stringify(object, null, 6)
-     .replace(/\n( *)/g, function (match, p1) {
-         return '<br>' + '&nbsp;'.repeat(p1.length);
-     });
-}
-
 async function receive() {
   const pre = document.body.getElementsByTagName("pre");
-  fetch(`${apiUrl}/iot-events/500`)
+  fetch(`${apiUrl}/iot-events/50`)
   .then(response => response.json())
   .then(data => {
-    pre[0].innerHTML = `<code>${prettyJson(data)}</code>`;
     buildChart(data);
   });
 }
 
 function buildChart(data) {
   var ctx = document.getElementById('myChart');
+  const temperatures = data.map(iotevent => iotevent.temperature);
+  const max = Math.round(Math.max(...temperatures) + 0.5);
+  const min = Math.round(Math.min(...temperatures) - 0.5);
+
   const myChart = new Chart(ctx, {
       type: 'line',
+      pointRadius: 0,
       data: {
         datasets: [{
+          label: "Temperature",
+          fill: true,
           data: data.filter(iotevent => !!iotevent.temperature),
-          tension: 0.1
+          tension: 0.4
         }]
       },
       options: {
+        plugins: {
+          legend: {
+            title: {
+              font: {
+                size: 20
+              }
+            },
+            labels: {
+              font: {
+                size: 30
+              }
+            }
+          }
+        },
         parsing: {
           xAxisKey: 'enqueued_time',
           yAxisKey: 'temperature'
         },
         scales: {
+          y: {
+            min,
+            max,
+            ticks: {
+              font: {
+                size: 20
+              },
+            },
+          },
           x: {
+            ticks: {
+              font: {
+                size: 20
+              },
+            },
             type: 'time',
             time: {
               unit: 'minute'
             },
-            title: {
-              display: true,
-              text: 'Tijd'
-            }
           }
         }
       }

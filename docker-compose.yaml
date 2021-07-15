@@ -14,7 +14,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - "/volume1/docker/mxchip-mongodb:/data/db"
+      - "/volume1/docker/mxchip-mongo:/data/db"
     environment:
       MONGO_INITDB_ROOT_PASSWORD: QqKfz72OiDZ5root
       MONGO_INITDB_ROOT_USERNAME: root

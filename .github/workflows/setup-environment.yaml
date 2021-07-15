@@ -1,5 +1,5 @@
 on: [push]
-name: Deploy azure ARM
+name: Deploy to NAS
 jobs:
   build-and-deploy:
     runs-on: self-hosted
@@ -7,11 +7,10 @@ jobs:
       MONGODB: ${{ secrets.MONGODB }}
     steps:
     - uses: actions/checkout@v1
+    - name: Build app
+      working-directory: ./app
+      run: |
+        npm ci
+        npm run build
     - name: Build the docker-compose stack
       run: docker-compose up -d
-    # - run: docker login --username berthertogen --password ${{ secrets.DOCKER_PAT }}
-    # - run: docker build -t berthertogen/mxchip-service:latest ./service
-    # - run: docker push berthertogen/mxchip-service:latest
-    # - run: docker pull berthertogen/mxchip-service:latest
-    # - run: docker stop berthertogen-mxchip-service1
-    # - run: docker stop berthertogen-mxchip-service1

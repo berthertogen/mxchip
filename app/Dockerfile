@@ -1,8 +1,4 @@
 # syntax=docker/dockerfile:1
-FROM node:current-alpine
-WORKDIR /app
-COPY ["package.json", "package-lock.json*", "./"]
-RUN npm install --production
+FROM nginx:alpine
 
-COPY . .
-CMD [ "node", "server.js" ]
+COPY ./dist /usr/share/nginx/html

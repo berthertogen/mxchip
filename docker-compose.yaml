@@ -18,3 +18,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_PASSWORD: QqKfz72OiDZ5root
       MONGO_INITDB_ROOT_USERNAME: root
+
+  mxchip-app:
+    build: ./app
+    ports:
+      "8080:80"

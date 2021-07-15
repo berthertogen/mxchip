@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build": "webpack",
+    "build:production": "NODE_ENV=production webpack",
     "start": "webpack serve --open"
   },
   "keywords": [],

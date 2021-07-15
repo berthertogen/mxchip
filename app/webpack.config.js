@@ -14,7 +14,6 @@ var setupConfig = () => {
   }
 };
 setupConfig();
-console.log(apiHost);
 
 module.exports = {
   mode: 'development',

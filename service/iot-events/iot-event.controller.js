@@ -14,8 +14,8 @@ exports.findAll = (req, res) => {
 
 exports.create = (req, res) => {
     new IotEvents({
-        humidity: req.query.humidity ? parseInt(req.query.humidity) : 0,
-        temperature: req.query.temperature ? parseInt(req.query.temperature) : 0,
+        humidity: req.query.humidity ? parseFloat(req.query.humidity) : 0,
+        temperature: req.query.temperature ? parseFloat(req.query.temperature) : 0,
         enqueued_time: new Date()
     })
         .save()

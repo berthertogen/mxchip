@@ -4,11 +4,11 @@ jobs:
   build-and-deploy:
     runs-on: self-hosted
     steps:
-     - uses: actions/checkout@v1
-     - run: |
-        echo "A initial message"
-        docker container ls
-     - run: echo "One last message"
+    - uses: actions/checkout@v1
+    - run: |
+      echo "A initial message"
+      docker container ls
+    - run: echo "One last message"
 
       # Log into Azure
     - uses: azure/login@v1

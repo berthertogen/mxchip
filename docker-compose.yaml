@@ -8,3 +8,15 @@ services:
       MONGODB: ${MONGODB}
       PORT: 3000
       CORSORIGIN: http://192.168.1.18:8080
+
+  mxchip-mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - "docker/mxchip-mongodb:/data/db"
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: QqKfz72OiDZ5root
+      MONGO_INITDB_ROOT_USERNAME: root
+
+

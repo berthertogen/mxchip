@@ -21,7 +21,7 @@ load_dotenv()
 
 EVENTHUB_CONNECTION_STRING = os.environ["EVENTHUB_CONNECTION_STRING"]
 CONSUMER_GROUP_NAME = os.environ['CONSUMER_GROUP_NAME']
-MONGODB_CONNECTION_STRING = os.environ['MONGODB_CONNECTION_STRING']
+MONGODB = os.environ['MONGODB']
 
 
 def on_event(partition_context, event):
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         consumer_group=CONSUMER_GROUP_NAME
     )
 
-    events=Events(MONGODB_CONNECTION_STRING)
+    events=Events(MONGODB)
     lastEvent=events.last_written()
     start_position="-1" if lastEvent is None else lastEvent['enqueued_time']
     print('Getting events starting from {0} last event {1}', start_position, lastEvent)

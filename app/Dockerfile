@@ -1,4 +1,9 @@
 # syntax=docker/dockerfile:1
-FROM nginx:alpine
+FROM node:latest AS build
+WORKDIR /app
+COPY ["package.json", "package-lock.json*", "./"]
+RUN npm ci
+RUN npm run build:production
 
-COPY ./dist /usr/share/nginx/html
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html/

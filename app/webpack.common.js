@@ -6,7 +6,7 @@ let apiHost;
 var setupConfig = () => {
   switch (process.env.NODE_ENV?.trim()) {
     case 'production':
-      apiHost = "'http://hertogen.synology.me:8081'";
+      apiHost = "'https://sensors-api.hertogen.net'";
       break;
     default:
       apiHost = "'http://localhost:3000'";

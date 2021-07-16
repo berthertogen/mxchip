@@ -1,10 +1,18 @@
 const express = require('express');
+const cors = require('cors')
 const mongoose = require('mongoose');
 require('dotenv').config()
 
-
 const app = express();
-app.use()
+const corsOrigins = process.env.CORSORIGIN.split(',');
+app.use(cors({ origin: function (origin, callback) {
+    if (corsOrigins.indexOf(origin) !== -1 || origin.startsWith("192.168.1.")) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+ }))
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true

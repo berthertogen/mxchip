@@ -7,7 +7,7 @@ services:
     environment:
       MONGODB: mongodb://root:${MONGODB_PASSWORD}@192.168.1.18:27017/mxchip?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
       PORT: 3000
-      CORSORIGIN: http://hertogen.synology.me:8082
+      CORSORIGIN: http://hertogen.synology.me:8082,https://sensors.hertogen.net,http://sensors.hertogen.net
 
   mxchip-mongo:
     image: mongo:latest

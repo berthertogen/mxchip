@@ -5,7 +5,15 @@ require('dotenv').config()
 
 
 const app = express();
-app.use(cors({ origin: process.env.CORSORIGIN }))
+const corsOrigins = process.env.CORSORIGIN.split(',');
+app.use(cors({ origin: function (origin, callback) {
+    if (corsOrigins.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+ }))
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true

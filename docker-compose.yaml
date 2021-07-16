@@ -22,4 +22,4 @@ services:
   mxchip-app:
     build: ./app
     ports:
-      - "8080:80"
+      - "8082:80"

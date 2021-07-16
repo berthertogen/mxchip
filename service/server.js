@@ -6,7 +6,7 @@ require('dotenv').config()
 const app = express();
 const corsOrigins = process.env.CORSORIGIN.split(',');
 app.use(cors({ origin: function (origin, callback) {
-    if (corsOrigins.indexOf(origin) !== -1 || origin.startsWith("192.168.1.")) {
+    if (corsOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))

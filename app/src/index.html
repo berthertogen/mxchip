@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>MXChip</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-      body {
-        background-color: rgb(48, 48, 48);
-        font-family: 'Roboto','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial','Lucida Grande','sans-serif';
-        color: #FFFFFF;
-      }
-    </style>
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>MXChip</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body class="mdc-typography">
+  
+  <div class="mdc-tab-bar" role="tablist">
+    <div class="mdc-tab-scroller">
+      <div class="mdc-tab-scroller__scroll-area">
+        <div class="mdc-tab-scroller__scroll-content">
+          <button class="mdc-tab" role="tab">
+            <span class="mdc-tab__content">
+              <span class="mdc-tab__text-label">Now</span>
+            </span>
+            <span class="mdc-tab-indicator">
+              <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+            </span>
+            <span class="mdc-tab__ripple"></span>
+          </button>
+          <button class="mdc-tab" role="tab">
+            <span class="mdc-tab__content">
+              <span class="mdc-tab__text-label">Today</span>
+            </span>
+            <span class="mdc-tab-indicator">
+              <span class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"></span>
+            </span>
+            <span class="mdc-tab__ripple"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mx-tab-content-0" class="mx-tab-content">
     <canvas id="temperatureChart"></canvas>
     <canvas id="humidityChart"></canvas>
-  </body>
+  </div>
+  <div id="mx-tab-content-1" class="mx-tab-content d-none">
+    <p>Today</p>
+  </div>
+</body>
+
 </html>

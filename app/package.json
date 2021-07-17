@@ -12,15 +12,25 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^10.3.1",
     "html-webpack-plugin": "^5.3.2",
-    "webpack": "^5.44.0",
+    "postcss-loader": "^6.1.1",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.1.0",
+    "webpack": "^5.45.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@material/button": "^11.0.0",
+    "@material/ripple": "^11.0.0",
+    "@material/tab-bar": "^11.0.0",
+    "@material/theme": "^11.0.0",
     "chart.js": "^3.4.1",
     "chartjs-adapter-luxon": "^1.0.0",
-    "luxon": "^1.28.0"
+    "css-loader": "^6.0.0",
+    "luxon": "^1.28.0",
+    "style-loader": "^3.1.0"
   }
 }

@@ -1,6 +1,8 @@
 const { apiUrl } = require("./configuration");
+import * as menu from './menu';
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-luxon';
+import "./styles.scss";
 
 Chart.register(...registerables);
 let charts = {};
@@ -9,14 +11,16 @@ let data = [];
 async function receive() {
   build();
   setInterval(async () => {
-    build();
+    if (menu.nowShown()){
+      build();
+    }
   }, 1500);
 }
 
 async function build() {
   await mergeData(30);
-  buildChart('temperature', "rgba(105, 240, 174, 1)");
-  buildChart('humidity', "rgba(156, 39, 176, 1)");
+  buildChart('temperature', "#6200ee");
+  buildChart('humidity', "#03dac6");
 }
 
 async function mergeData(numberOfResults) {
@@ -28,89 +32,79 @@ async function mergeData(numberOfResults) {
       return arr.map(mapObj => mapObj["_id"]).indexOf(obj["_id"]) === pos;
     });
   const sorted = newData
-    .sort((a,b) => new Date(a.enqueued_time) - new Date(b.enqueued_time));
-  
-    data = sorted.length > numberOfResults 
-      ? sorted.slice(newData.length - numberOfResults, newData.length)
-      : sorted;
+    .sort((a, b) => new Date(a.enqueued_time) - new Date(b.enqueued_time));
+  data = sorted.length > numberOfResults
+    ? sorted.slice(newData.length - numberOfResults, newData.length)
+    : sorted;
 }
 
-function buildChart(yAxisKey, color) {
-  var chartName = `${yAxisKey}Chart`;
-  var ctx = document.getElementById(chartName);
+function buildChart(yAxisKey, backgroundColor) {
+  const textColor = '#000000';
+  const font = {
+    font: {
+      size: 20,
+      family: "Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif"
+    },
+    color: textColor
+  };
+  const chartName = `${yAxisKey}Chart`;
+  const ctx = document.getElementById(chartName);
 
   const values = data.map(iotevent => iotevent[yAxisKey]);
   const max = Math.round(Math.max(...values) + 0.5);
   const min = Math.round(Math.min(...values) - 0.5);
 
-  if (charts[chartName]){
+  if (charts[chartName]) {
     charts[chartName].destroy();
   }
   charts[chartName] = new Chart(ctx, {
-      type: 'line',
-      pointRadius: 0,
-      data: {
-        datasets: [{
-          label: `${yAxisKey} ${data[data.length - 1][yAxisKey]}`,
-          fill: true,
-          data: data,
-          tension: 0.4,
-          backgroundColor: color,
-          color: "#ffffff"
-        }]
-      },
-      options: {
-        animation: false,
-        plugins: {
-          legend: {
-            title: {
-              font: {
-                size: 20,
-                family: "Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif"
-              },
-              color: "#ffffff"
-            },
-            labels: {
-              font: {
-                size: 30,
-                family: "Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif"
-              },
-              color: "#ffffff"
+    type: 'line',
+    pointRadius: 0,
+    data: {
+      datasets: [{
+        label: `${yAxisKey} ${data[data.length - 1][yAxisKey]}`,
+        fill: true,
+        data: data,
+        tension: 0.4,
+        backgroundColor: backgroundColor,
+        color: textColor
+      }]
+    },
+    options: {
+      animation: false,
+      plugins: {
+        legend: {
+          title: font,
+          labels: {
+            ...font,
+            font: {
+              ...font.font,
+              size: 30
             }
           }
+        }
+      },
+      parsing: {
+        xAxisKey: 'enqueued_time',
+        yAxisKey: yAxisKey
+      },
+      scales: {
+        y: {
+          min,
+          max,
+          ticks: font,
         },
-        parsing: {
-          xAxisKey: 'enqueued_time',
-          yAxisKey: yAxisKey
-        },
-        scales: {
-          y: {
-            min,
-            max,
-            ticks: {
-              font: {
-                size: 20,
-                family: "Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif"
-              },
-              color: "#ffffff"
-            },
+        x: {
+          ticks: font,
+          type: 'time',
+          time: {
+            unit: 'minute'
           },
-          x: {
-            ticks: {
-              font: {
-                size: 20,
-                family: "Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif"
-              },
-              color: "#ffffff"
-            },
-            type: 'time',
-            time: {
-              unit: 'minute'
-            },
-          }
         }
       }
+    }
   });
 }
 
+menu.init();
 receive().then();

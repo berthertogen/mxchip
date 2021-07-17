@@ -14,33 +14,54 @@ exports.findAll = (req, res) => {
 };
 
 exports.findRangeAndAggregate = (req, res) => {
-  console.log(req.params)
   const from = DateTime.fromFormat(req.params.from, "yyyyMMdd");
   const till = DateTime.fromFormat(req.params.till, "yyyyMMdd");
   const minutes = parseInt(req.params.minutes);
-
   IotEvents
     .aggregate([
-      { "$match": { "enqueued_time": {
-        $gte: from.toISO(),
-        $lt: till.toISO()
-      } } },
-      { "$group": {
-        "_id": {
-          "year": { "$year": "enqueued_time" },
-          "dayOfYear": { "$dayOfYear": "enqueued_time" },
-          "hour": { "$hour": "enqueued_time" },
-          "interval": {
-            "$subtract": [ 
-              { "$minute": "enqueued_time" },
-              { "$mod": [{ "$minute": "enqueued_time"}, 15] }
-            ]
+      {
+        "$match": {
+          "createdAt": {
+            "$gte": from.toJSDate(),
+            "$lte": till.toJSDate()
           }
-        }},
-        "count": { "$sum": 1 }
+        }
+      },
+      {
+        "$group": {
+          "_id": {
+            "$toDate": {
+              "$subtract": [
+                { "$toLong": "$createdAt" },
+                { "$mod": [{ "$toLong": "$createdAt" }, 1000 * 60 * minutes] }
+              ]
+            }
+          },
+          "count": {
+            "$sum": 1
+          },
+          "averageTemperature": {
+            "$avg": "$temperature"
+          },
+          "averageHumidity": {
+            "$avg": "$humidity"
+          }
+        }
+      },
+      {
+        "$project": {
+          "aggregatedOn" : "$_id", 
+          "count": "$count",
+          "temperature": "$averageTemperature",
+          "humidity": "$averageHumidity"
+        }
+      },
+      {
+        "$sort": {
+          "aggregatedOn": 1,
+        }
       }
     ])
-    .sort({ enqueued_time: -1 })
     .then(events => {
       res.send(events);
     })
